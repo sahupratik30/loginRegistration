@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="container col-md-4 col-12">
+    <form action="/register" method="POST">
+      <div class="form-group">
+        <label for="Firstname">Firstname</label>
+        <input
+          type="text"
+          class="form-control"
+          id="Firstname"
+          name="fname"
+          placeholder="Enter your firstname"
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Lastname">Lastname</label>
+        <input
+          type="text"
+          class="form-control"
+          id="Lastname"
+          name="lname"
+          placeholder="Enter your lastname"
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Mobile">Mobile</label>
+        <input
+          type="number"
+          class="form-control"
+          id="Mobile"
+          name="mobile"
+          placeholder="Enter your mobile no."
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="D.O.B">D.O.B</label>
+        <input
+          type="date"
+          class="form-control"
+          id="D.O.B"
+          name="dob"
+          placeholder="Enter your date of birth"
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="Email"
+          name="email"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="Password"
+          name="password"
+          placeholder="Password"
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="Confirm Password">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="Confirm Password"
+          name="cpassword"
+          placeholder="Confirm Password"
+          required="required"
+        />
+      </div>
+      <div class="button_div">
+        <input type="submit" class="btn btn-primary" value="Register" />
+      </div>
+      <div class="login_div">
+        <p>Already have an account?<a href="/login">Login here</a></p>
+      </div>
+    </form>
+  </div>
+</div>
