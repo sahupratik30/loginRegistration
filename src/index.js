@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
+const auth = require("./middleware/auth");
 require("./db/conn");
 const User = require("./models/users");
 const port = process.env.PORT || 8000;
@@ -13,11 +15,29 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "../templates/views"));
 hbs.registerPartials(path.join(__dirname, "../templates/partials"));
 //Using the static web folder.
+app.use(cookieParser());
 app.use(express.static(staticPath));
-
 app.get("/", (req, res) => {
   res.render("index");
 });
+app.get("/about", auth, (req, res) => {
+  res.render("about", {
+    username: res.user.firstname,
+  });
+});
+app.get("/logout", auth, async (req, res) => {
+  try {
+    res.clearCookie("jwt");
+    res.user.tokens = res.user.tokens.filter((token) => {
+      return token !== res.token;
+    });
+    await res.user.save();
+    res.render("login");
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
 app.get("/register", (req, res) => {
   res.render("register");
 });
@@ -41,7 +61,6 @@ app.post("/register", async (req, res) => {
       password: req.body.password,
     });
     if (password === confirmPassword) {
-      const token = await userData.generateAuthToken();
       await userData.save();
       res.status(201).render("index");
     } else {
@@ -63,9 +82,12 @@ app.post("/login", async (req, res) => {
       data.password
     );
     const token = await data.generateAuthToken();
-    console.log(token);
+    res.cookie("jwt", token, {
+      expires: new Date(Date.now() + 1000000),
+      httpOnly: true,
+    });
     if (checkPasswordMatch) {
-      res.status(200).send("Login Successful");
+      res.status(200).render("index");
     } else {
       res.status(400).send("Invalid Credentials!");
     }
